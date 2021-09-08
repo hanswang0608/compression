@@ -3,16 +3,12 @@
 
 class MinHeap{
     private:
-struct Node{
+    struct Node{
         char value;
-        Node* left;
-        Node* right;
-
-        Node();
-        Node(char value);
-        Node(Node* left, Node* right);
-        ~Node();
+        unsigned int freq;
     };
+    Node heap[];
+
     public: 
     MinHeap();
     ~MinHeap();
