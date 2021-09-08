@@ -7,6 +7,18 @@
 
 class Tree{
     private:
+
+    struct Node{
+        int value;
+        Node* left;
+        Node* right;
+
+        Node();
+        Node(int value);
+        Node(int value, Node* left, Node* right);
+        ~Node();
+    };
+
     Node* root;
 
     public:
