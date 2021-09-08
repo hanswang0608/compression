@@ -15,6 +15,7 @@ Tree::Node::Node(Node* left, Node* right){
 Tree::Node::~Node(){}
 
 Tree::Tree(){
+    this->root = nullptr;
     freq = 0;
 }
 
