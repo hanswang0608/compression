@@ -8,17 +8,18 @@ class Tree{
     private:
 
     struct Node{
-        int value;
+        char value;
         Node* left;
         Node* right;
 
         Node();
-        Node(int value);
-        Node(int value, Node* left, Node* right);
+        Node(char value);
+        Node(Node* left, Node* right);
         ~Node();
     };
 
     Node* root;
+    unsigned int freq;
 
     public:
     Tree();
@@ -26,8 +27,11 @@ class Tree{
     ~Tree();
     
     void print_tree();
-    Node* get_root();
     void set_root(Node* node);
+    void cleanup_helper(Node* node);
+    void print_tree_helper(Node* node);
+    void insert(char a, unsigned int freq);
+    void insert(Tree t);
     
 };
 #endif
