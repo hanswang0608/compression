@@ -1,6 +1,20 @@
 #include <iostream>
 #include "Tree.h"
 
+
+Tree::Node::Node(){}
+
+Tree::Node::Node(int value){
+    this->value = value;
+}
+Tree::Node::Node(int value, Node* left, Node* right){
+    this->value = value;
+    this->left = left;
+    this->right = right;
+}
+
+Tree::Node::~Node(){}
+
 Tree::Tree(){}
 Tree::Tree(Node* root){
     this->root = root;
