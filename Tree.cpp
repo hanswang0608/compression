@@ -9,8 +9,8 @@ void cleanup_helper(Node* node){
     if (node == nullptr){
         return;
     }
-    cleanup_helper(node->get_left());
-    cleanup_helper(node->get_right());
+    cleanup_helper(node->left);
+    cleanup_helper(node->right);
     delete node;
 }
 
@@ -31,8 +31,8 @@ void print_tree_helper(Node* node){
         return;
     }
     std::cout << node->to_string() << std::endl;
-    print_tree_helper(node->get_left());
-    print_tree_helper(node->get_right());
+    print_tree_helper(node->left);
+    print_tree_helper(node->right);
 }
 
 void Tree::print_tree(){
