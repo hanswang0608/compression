@@ -2,9 +2,11 @@
 #include "Tree.h"
 
 Tree::Tree(){}
+
 Tree::Tree(Node* root){
     this->root = root;
 }
+
 void cleanup_helper(Node* node){
     if (node == nullptr){
         return;

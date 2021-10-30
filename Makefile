@@ -1,7 +1,7 @@
-all: compressor
+all: main
 
-compressor: compressor.cpp Tree.cpp Node.cpp
-	g++ compressor.cpp Tree.cpp Node.cpp -o compressor -lstdc++
+main: main.cpp Tree.cpp Node.cpp
+	g++ main.cpp Tree.cpp Node.cpp -o main -lstdc++
 
 clean:
-	rm compressor
+	rm main
