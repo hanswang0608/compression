@@ -1,0 +1,9 @@
+C:/Users/HansW/Documents/Projects/compression/build/CMakeFiles/NightlyMemoryCheck.dir
+C:/Users/HansW/Documents/Projects/compression/build/CMakeFiles/Experimental.dir
+C:/Users/HansW/Documents/Projects/compression/build/CMakeFiles/Continuous.dir
+C:/Users/HansW/Documents/Projects/compression/build/CMakeFiles/Nightly.dir
+C:/Users/HansW/Documents/Projects/compression/build/CMakeFiles/compression.dir
+C:/Users/HansW/Documents/Projects/compression/build/CMakeFiles/PACKAGE.dir
+C:/Users/HansW/Documents/Projects/compression/build/CMakeFiles/RUN_TESTS.dir
+C:/Users/HansW/Documents/Projects/compression/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/HansW/Documents/Projects/compression/build/CMakeFiles/ZERO_CHECK.dir
