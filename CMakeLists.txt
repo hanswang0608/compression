@@ -3,7 +3,7 @@ project(compression VERSION 0.1.0)
 
 include(CTest)
 enable_testing()
-ADD_LIBRARY(LibsModule Tree.cpp Node.cpp Simple.cpp)
+ADD_LIBRARY(LibsModule Tree.cpp Node.cpp Huffman.cpp)
 add_executable(compression main.cpp)
 target_link_libraries(compression LibsModule)
 add_test(main_test compression)
