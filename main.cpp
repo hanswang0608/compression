@@ -65,7 +65,8 @@ void compress(char file_in_name[])
         return;
     }
 
-    // Read file char by char to count the frequency of each character
+    // Read file 1 char at a time to count the frequency of each character
+    // Since a character is actually 1 byte, it counts the frequency of unique bytes
     while (1)
     {
         char c = file_in.get();
@@ -76,10 +77,10 @@ void compress(char file_in_name[])
         freq_table[c]++;
     }
 
-    // Print out the frequency hashtable
+    // Print out the frequency hashtable in hex
     for (auto i : freq_table)
     {
-        std::cout << i.first << ", " << i.second << std::endl;
+        std::cout << std::hex << (int)(unsigned char)i.first << ", " << i.second << std::endl;
     }
 
     // Close the file.
