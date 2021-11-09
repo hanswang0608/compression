@@ -54,5 +54,8 @@
     "iomanip": "cpp",
     "xlocmon": "cpp",
     "xloctime": "cpp"
+  },
+  "[cpp]": {
+    "editor.defaultFormatter": "ms-vscode.cpptools"
   }
 }
