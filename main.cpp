@@ -8,13 +8,11 @@
 #include "Huffman.h"
 
 int main(int argc, char **argv);
-void compress(char file_in_name[]);
+void freq_table_storing(char file_in_name[]);
+void print_freq_table(std::unordered_map<char, int> freq_table);
 
 int main(int argc, char **argv)
 {
-    std::cout << "Starting" << std::endl;
-    std::cout << '\n';
-
     //credit to the code below goes to https://people.sc.fsu.edu/~jburkardt/cpp_src/hexdump/hexdump.html
     char file_in_name[80];
     int i;
@@ -22,13 +20,11 @@ int main(int argc, char **argv)
     // If the input file was not specified, get it now.
     if (argc <= 1)
     {
-        std::cout << "\n";
-        std::cout << "std::hexDUMP:\n";
-        std::cout << "  Please enter the name of a file to be analyzed.\n";
+        std::cout << "Please enter the name of a file to be analyzed.\n";
 
         std::cin.getline(file_in_name, sizeof(file_in_name));
 
-        compress(file_in_name);
+        freq_table_storing(file_in_name);
     }
 
     // Otherwise, get the file(s) from the argument list.
@@ -37,16 +33,16 @@ int main(int argc, char **argv)
         for (i = 1; i < argc; ++i)
         {
             // compress each file specified
-            compress(argv[i]);
+            freq_table_storing(argv[i]);
         }
     }
 
     return 0;
 }
 
-void compress(char file_in_name[])
+void freq_table_storing(char file_in_name[])
 {
-    std::cout << "Compressing " << file_in_name << std::endl;
+    std::cout << "Storing Frequencies in Hashtable " << file_in_name << std::endl;
     // Hashtable that stores the frequency of each character read from the input
     std::unordered_map<char, int> freq_table;
     // Hashtable that stores the variable length huffman codes for each character
@@ -67,7 +63,7 @@ void compress(char file_in_name[])
 
     // Read file 1 char at a time to count the frequency of each character
     // Since a character is actually 1 byte, it counts the frequency of unique bytes
-    while (1)
+    while (true)
     {
         char c = file_in.get();
         if (file_in.gcount() <= 0) // No more chars to read, break
@@ -77,16 +73,22 @@ void compress(char file_in_name[])
         freq_table[c]++;
     }
 
+    print_freq_table(freq_table);
+
+    // Close the file.
+    file_in.close();
+
+    return;
+}
+
+void print_freq_table(std::unordered_map<char, int> freq_table)
+{
     // Print out the frequency hashtable in hex
     for (auto i : freq_table)
     {
         std::cout << std::hex << (int)(unsigned char)i.first << ", " << i.second << std::endl;
     }
-
-    // Close the file.
-    file_in.close();
-
-    std::cout << '\n';
-
-    return;
 }
+
+// g++ main.cpp Tree.cpp Node.cpp Huffman.cpp -o compression -lstdc++
+// cd OneDrive/Desktop/Projects/compression/
