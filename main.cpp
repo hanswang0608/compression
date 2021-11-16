@@ -150,8 +150,3 @@ void print_freq_table(std::unordered_map<char, int> freq_table)
 // cd OneDrive/Desktop/Projects/compression/
 // make && ./compression
 // valgrind -o --leak-check=yes ./compression
-
-//TODO:
-//! Create comparator
-//! Add nodes to queue
-//! create huffman tree
