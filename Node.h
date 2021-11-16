@@ -1,22 +1,27 @@
 #include <string>
 
-class Node{
-    private:
+class Node
+{
+private:
     int value;
-    Node* left;
-    Node* right;
+    int count;
+    Node *left;
+    Node *right;
 
-    public:
+public:
     Node();
-    Node(int value);
-    Node(int value, Node* left, Node* right);
+    Node(int count);
+    Node(int count, int value);
+    Node(int count, int value, Node *left, Node *right);
     ~Node();
-    
-    std::string to_string();
+
+    // std::string to_string();
     int get_value();
-    Node* get_left();
-    Node* get_right();
-    void set_right(Node* node);
-    void set_left(Node* node);
-    void set_value(int value);
+    int get_count();
+    Node *get_left();
+    Node *get_right();
+    void set_right(Node *node);
+    void set_left(Node *node);
+    void set_value(int count);
+    void set_count(int value);
 };

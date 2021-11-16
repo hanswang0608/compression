@@ -53,9 +53,15 @@
     "ctime": "cpp",
     "iomanip": "cpp",
     "xlocmon": "cpp",
-    "xloctime": "cpp"
+    "xloctime": "cpp",
+    "fstream": "cpp",
+    "xmemory0": "cpp",
+    "algorithm": "cpp",
+    "deque": "cpp",
+    "queue": "cpp"
   },
   "[cpp]": {
     "editor.defaultFormatter": "ms-vscode.cpptools"
-  }
+  },
+  "cmake.configureOnOpen": false
 }
