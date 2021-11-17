@@ -10,8 +10,9 @@
 int main(int argc, char **argv);
 void freq_table_storing(char file_in_name[]);
 void print_freq_table(std::unordered_map<char, int> freq_table);
-void huffman_tree_maker(std::unordered_map<char, int> freq_table);
+Node *huffman_tree_maker(std::unordered_map<char, int> freq_table);
 Node *node_comparator(Node *node1, Node *node2);
+bool Compare(Node *node1, Node *node2);
 
 int main(int argc, char **argv)
 {
@@ -77,10 +78,16 @@ void freq_table_storing(char file_in_name[])
 
     print_freq_table(freq_table);
     std::cout << "-----------------------" << std::endl;
-    huffman_tree_maker(freq_table);
+
+    Node *root = huffman_tree_maker(freq_table);
+
+    // print out the top of the tree (the node starts with pq.top so if wanted in a node variable, assign to to one)
+    std::cout << std::endl
+              << root->get_count() << std::endl;
 
     // Close the file.
     file_in.close();
+    Node::cleanup(root);
 
     return;
 }
@@ -99,7 +106,7 @@ bool Compare(Node *node1, Node *node2)
 }
 
 // creates huffman tree
-void huffman_tree_maker(std::unordered_map<char, int> freq_table)
+Node *huffman_tree_maker(std::unordered_map<char, int> freq_table)
 {
     // creates a priority_queue to store and sort the whole huffman tree
     std::priority_queue<Node *, std::vector<Node *>, decltype(&Compare)> pq(Compare);
@@ -129,9 +136,7 @@ void huffman_tree_maker(std::unordered_map<char, int> freq_table)
         pq.pop();
     }
 
-    // print out the top of the tree (the node starts with pq.top so if wanted in a node variable, assign to to one)
-    std::cout << std::endl
-              << pq.top()->get_count() << std::endl;
+    return pq.top();
 }
 
 // Prints the frequency table

@@ -15,7 +15,7 @@ public:
     Node(int count, int value, Node *left, Node *right);
     ~Node();
 
-    // std::string to_string();
+    std::string to_string();
     int get_value();
     int get_count();
     Node *get_left();
@@ -24,4 +24,5 @@ public:
     void set_left(Node *node);
     void set_value(int count);
     void set_count(int value);
+    static void cleanup(Node *node);
 };

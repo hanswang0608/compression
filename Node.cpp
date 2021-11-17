@@ -1,5 +1,16 @@
 #include "Node.h"
 
+void Node::cleanup(Node *node)
+{
+    if (node == nullptr)
+    {
+        return;
+    }
+    cleanup(node->get_left());
+    cleanup(node->get_right());
+    delete node;
+}
+
 Node::Node()
 {
     this->count = 0;
@@ -31,10 +42,10 @@ Node::Node(int count, int value, Node *left, Node *right)
 
 Node::~Node() {}
 
-// std::string Node::to_string()
-// {
-//     return std::to_string(this->value);
-// }
+std::string Node::to_string()
+{
+    return std::to_string(this->value);
+}
 
 int Node::get_value()
 {
