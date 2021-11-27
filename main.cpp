@@ -6,13 +6,16 @@
 #include <bits/stdc++.h>
 
 #include "Node.h"
+#include "Tree.h"
 
 int main(int argc, char **argv);
 void freq_table_storing(char file_in_name[]);
 void print_freq_table(std::unordered_map<char, int> freq_table);
+void print_codes_table(std::unordered_map<char, std::string> codes_table);
 Node *huffman_tree_maker(std::unordered_map<char, int> freq_table);
 Node *node_comparator(Node *node1, Node *node2);
 bool Compare(Node *node1, Node *node2);
+std::unordered_map<char, std::string> *generate_codes(Node *root);
 
 int main(int argc, char **argv)
 {
@@ -45,11 +48,11 @@ int main(int argc, char **argv)
 
 void freq_table_storing(char file_in_name[])
 {
-    std::cout << "Storing Frequencies in Hashtable " << file_in_name << std::endl;
+    std::cout << "Storing Frequencies in Hashtable for " << file_in_name << std::endl;
     // Hashtable that stores the frequency of each character read from the input
     std::unordered_map<char, int> freq_table;
     // Hashtable that stores the variable length huffman codes for each character
-    std::unordered_map<char, std::string> codes_table;
+    std::unordered_map<char, std::string> *codes_table;
     // Input file stream
     std::ifstream file_in;
 
@@ -81,13 +84,14 @@ void freq_table_storing(char file_in_name[])
 
     Node *root = huffman_tree_maker(freq_table);
 
-    // print out the top of the tree (the node starts with pq.top so if wanted in a node variable, assign to to one)
-    std::cout << std::endl
-              << root->get_count() << std::endl;
+    codes_table = generate_codes(root);
+    print_codes_table(*codes_table);
 
     // Close the file.
     file_in.close();
     Node::cleanup(root);
+    codes_table->clear();
+    delete codes_table;
 
     return;
 }
@@ -139,11 +143,43 @@ Node *huffman_tree_maker(std::unordered_map<char, int> freq_table)
     return pq.top();
 }
 
+void helper(std::unordered_map<char, std::string> *map, Node *root, std::string str)
+{
+    if (root->get_left() == nullptr && root->get_right() == nullptr)
+    {
+        map->insert(std::make_pair(root->get_value(), str));
+        return;
+    }
+
+    helper(map, root->get_left(), str + "0");
+    helper(map, root->get_right(), str + "1");
+}
+
+std::unordered_map<char, std::string> *generate_codes(Node *root)
+{
+    std::cout << "Generating variable length codes for all characters" << std::endl;
+    std::unordered_map<char, std::string> *temp = new std::unordered_map<char, std::string>();
+    helper(temp, root, "");
+    return temp;
+}
+
 // Prints the frequency table
 void print_freq_table(std::unordered_map<char, int> freq_table)
 {
     // Print out the frequency hashtable in hex
     for (auto i : freq_table)
+    {
+        std::cout << std::fixed << std::setprecision(2) << std::setfill('0');
+        std::cout << std::setw(2) << std::hex << (int)(unsigned char)i.first << ", ";
+        std::cout << std::dec << i.second << std::endl;
+    }
+}
+
+// Prints the character codes table
+void print_codes_table(std::unordered_map<char, std::string> codes_table)
+{
+    // Print out the frequency hashtable in hex
+    for (auto i : codes_table)
     {
         std::cout << std::fixed << std::setprecision(2) << std::setfill('0');
         std::cout << std::setw(2) << std::hex << (int)(unsigned char)i.first << ", ";

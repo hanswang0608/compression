@@ -1,3 +1,5 @@
+#ifndef NODE_HEADER
+#define NODE_HEADER
 #include <string>
 
 class Node
@@ -26,3 +28,4 @@ public:
     void set_count(int value);
     static void cleanup(Node *node);
 };
+#endif
