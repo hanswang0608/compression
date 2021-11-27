@@ -143,7 +143,8 @@ Node *huffman_tree_maker(std::unordered_map<char, int> freq_table)
     return pq.top();
 }
 
-void helper(std::unordered_map<char, std::string> *map, Node *root, std::string str)
+// Helper function for traversing the huffman tree and generating codes
+void generate_codes_helper(std::unordered_map<char, std::string> *map, Node *root, std::string str)
 {
     if (root->get_left() == nullptr && root->get_right() == nullptr)
     {
@@ -151,15 +152,16 @@ void helper(std::unordered_map<char, std::string> *map, Node *root, std::string 
         return;
     }
 
-    helper(map, root->get_left(), str + "0");
-    helper(map, root->get_right(), str + "1");
+    generate_codes_helper(map, root->get_left(), str + "0");
+    generate_codes_helper(map, root->get_right(), str + "1");
 }
 
+// Return a hashtable with characters and their corresponding variable length huffman codes
 std::unordered_map<char, std::string> *generate_codes(Node *root)
 {
     std::cout << "Generating variable length codes for all characters" << std::endl;
     std::unordered_map<char, std::string> *temp = new std::unordered_map<char, std::string>();
-    helper(temp, root, "");
+    generate_codes_helper(temp, root, "");
     return temp;
 }
 
