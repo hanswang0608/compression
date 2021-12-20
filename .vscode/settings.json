@@ -58,7 +58,8 @@
     "xmemory0": "cpp",
     "algorithm": "cpp",
     "deque": "cpp",
-    "queue": "cpp"
+    "queue": "cpp",
+    "bitset": "cpp"
   },
   "[cpp]": {
     "editor.defaultFormatter": "ms-vscode.cpptools"

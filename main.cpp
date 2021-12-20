@@ -4,6 +4,7 @@
 #include <iomanip>
 #include <fstream>
 #include <bits/stdc++.h>
+#include <bitset> // library to display bits
 
 #include "Node.h"
 #include "Tree.h"
@@ -16,10 +17,11 @@ Node *huffman_tree_maker(std::unordered_map<char, int> freq_table);
 Node *node_comparator(Node *node1, Node *node2);
 bool Compare(Node *node1, Node *node2);
 std::unordered_map<char, std::string> *generate_codes(Node *root);
+void compress_data_to_file(std::unordered_map<char, std::string> codes_table, char file_in_name[]);
 
 int main(int argc, char **argv)
 {
-    //credit to the code below goes to https://people.sc.fsu.edu/~jburkardt/cpp_src/hexdump/hexdump.html
+    // credit to the code below goes to https://people.sc.fsu.edu/~jburkardt/cpp_src/hexdump/hexdump.html
     char file_in_name[80];
     int i;
 
@@ -29,7 +31,6 @@ int main(int argc, char **argv)
         std::cout << "Please enter the name of a file to be analyzed.\n";
 
         std::cin.getline(file_in_name, sizeof(file_in_name));
-
         freq_table_storing(file_in_name);
     }
 
@@ -85,7 +86,10 @@ void freq_table_storing(char file_in_name[])
     Node *root = huffman_tree_maker(freq_table);
 
     codes_table = generate_codes(root);
+    std::cout << "-----------------------" << std::endl;
     print_codes_table(*codes_table);
+
+    compress_data_to_file(*codes_table, file_in_name);
 
     // Close the file.
     file_in.close();
@@ -189,7 +193,121 @@ void print_codes_table(std::unordered_map<char, std::string> codes_table)
     }
 }
 
+void compress_data_to_file(std::unordered_map<char, std::string> codes_table, char file_in_name[])
+{
+
+    // Create file to write compression into
+    std::string file_out_name = "compressed - " + std::string(file_in_name);
+    // open the output file
+    std::ofstream file_out(file_out_name);
+
+    // open the input file.
+    std::ifstream file_in;
+    file_in.open(file_in_name);
+
+    // 1 byte, 8 bit buffer
+    uint8_t buffer = 0;
+
+    // status of buffer
+    int buffer_stat = 0;
+
+    // loop to write to file and replace the characters
+    while (true)
+    {
+        // get the character from input file
+        char c = file_in.get();
+
+        if (file_in.gcount() <= 0) // No more chars to read, break
+        {
+            // push final byte to be MSB if there are any trailing 0's
+            buffer = buffer << 8 - buffer_stat;
+
+            // std::cout << "this is written to file: " << std::bitset<8>(buffer) << ", hex value: " << std::hex << (int)buffer << std::endl;
+
+            // write final byte
+            file_out << (char)buffer;
+
+            buffer = 0;
+            break;
+        }
+
+        // get the code for the corresponding characater
+        std::string letter_code = codes_table.at(c);
+
+        // std::cout << "char: " << c << std::endl;
+        // std::cout << "code: " << letter_code << std::endl;
+
+        // loop through the code and add it to the buffer 1 bit at the time
+        for (int i = 0; i < letter_code.length(); i++)
+        {
+            // once buffer is full
+            if (buffer_stat == 8)
+            {
+                // std::cout << "this is written to file: " << std::bitset<8>(buffer) << ", hex value: " << std::hex << (int)buffer << std::endl;
+
+                // write byte to file
+                file_out << (char)buffer;
+                buffer = 0;
+                buffer_stat = 0;
+            }
+
+            // get current bit from the code
+            char current_bit = letter_code[i];
+
+            // shift buffer to make room for the new bit
+            buffer = buffer << 1;
+
+            // make the bit either 1 or 0
+            int bit_set = current_bit - 48;
+
+            // set the bit at the first location
+            buffer = buffer | bit_set;
+
+            // increase the buffer status size
+            buffer_stat++;
+        }
+    }
+
+    // loop through adding
+    for (auto i : codes_table)
+    {
+        // write the character from the table to file
+        file_out << i.first;
+
+        // get the code into a string
+        std::string letter_code = i.second;
+
+        // loop through the code adding each bit the same way as we did for the character swapping
+        for (int i = 0; i < letter_code.length(); i++)
+        {
+            char current_bit = letter_code[i];
+
+            buffer = buffer << 1;
+
+            int bit_set = current_bit - 48;
+
+            buffer = buffer | bit_set;
+        }
+
+        file_out << (char)buffer;
+        buffer = 0;
+    }
+
+    // set the amount of trailing 0's to an uint_8
+    buffer = buffer_stat;
+    // write the amount of trailing 0's
+    file_out << buffer;
+
+    // close
+    file_in.close();
+    file_out.close();
+}
+
 // g++ main.cpp Tree.cpp Node.cpp Huffman.cpp -o compression -lstdc++
 // cd OneDrive/Desktop/Projects/compression/
 // make && ./compression
 // valgrind -o --leak-check=yes ./compression
+
+//! Things to Improve
+// not opening the input file a second time.
+// not writing the output file right away
