@@ -211,6 +211,8 @@ void compress_data_to_file(std::unordered_map<char, std::string> codes_table, ch
     // status of buffer
     int buffer_stat = 0;
 
+    uint64_t byte_counter = 0;
+
     // loop to write to file and replace the characters
     while (true)
     {
@@ -221,6 +223,9 @@ void compress_data_to_file(std::unordered_map<char, std::string> codes_table, ch
         {
             // push final byte to be MSB if there are any trailing 0's
             buffer = buffer << 8 - buffer_stat;
+
+            // Byte counter
+            byte_counter++;
 
             // std::cout << "this is written to file: " << std::bitset<8>(buffer) << ", hex value: " << std::hex << (int)buffer << std::endl;
 
@@ -249,6 +254,7 @@ void compress_data_to_file(std::unordered_map<char, std::string> codes_table, ch
                 file_out << (char)buffer;
                 buffer = 0;
                 buffer_stat = 0;
+                byte_counter++;
             }
 
             // get current bit from the code
@@ -268,9 +274,12 @@ void compress_data_to_file(std::unordered_map<char, std::string> codes_table, ch
         }
     }
 
+    uint8_t buffer_stat_copy = buffer_stat;
+
     // loop through adding
     for (auto i : codes_table)
     {
+        buffer_stat = 0;
         // write the character from the table to file
         file_out << i.first;
 
@@ -287,16 +296,35 @@ void compress_data_to_file(std::unordered_map<char, std::string> codes_table, ch
             int bit_set = current_bit - 48;
 
             buffer = buffer | bit_set;
+
+            // increase the buffer status size
+            buffer_stat++;
         }
 
+        buffer = buffer << 8 - buffer_stat;
+
         file_out << (char)buffer;
+
+        buffer = 8 - buffer_stat;
+
+        file_out << buffer;
+
         buffer = 0;
     }
 
-    // set the amount of trailing 0's to an uint_8
-    buffer = buffer_stat;
-    // write the amount of trailing 0's
-    file_out << buffer;
+    file_out << buffer_stat_copy;
+
+    // std::cout << "this is written to file: " << std::bitset<64>(byte_counter) << ", hex value: " << std::hex << (int)byte_counter << std::endl;
+
+    uint8_t temp_byte = 0;
+
+    for (int i = 7; i >= 0; i--)
+    {
+        temp_byte = byte_counter >> 8 * i;
+
+        // std::cout << "this is written to file: " << std::bitset<8>(temp_byte) << ", hex value: " << std::hex << (int)temp_byte << std::endl;
+        file_out << temp_byte;
+    }
 
     // close
     file_in.close();
