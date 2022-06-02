@@ -28,7 +28,7 @@ int main(int argc, char **argv)
     // If the input file was not specified, get it now.
     if (argc <= 1)
     {
-        std::cout << "Please enter the name of a file to be analyzed.\n";
+        std::cout << "Please enter the name of a file to be compressed.\n";
 
         std::cin.getline(file_in_name, sizeof(file_in_name));
         freq_table_storing(file_in_name);
