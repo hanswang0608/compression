@@ -19,8 +19,7 @@ bool Compare(Node *node1, Node *node2);
 std::unordered_map<char, std::string> *generate_codes(Node *root);
 void compress_data_to_file(std::unordered_map<char, std::string> codes_table, char file_in_name[]);
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv){
     // credit to the code below goes to https://people.sc.fsu.edu/~jburkardt/cpp_src/hexdump/hexdump.html
     char file_in_name[80];
     int i;
@@ -47,8 +46,7 @@ int main(int argc, char **argv)
     return 0;
 }
 
-void freq_table_storing(char file_in_name[])
-{
+void freq_table_storing(char file_in_name[]){
     std::cout << "Storing Frequencies in Hashtable for " << file_in_name << std::endl;
     // Hashtable that stores the frequency of each character read from the input
     std::unordered_map<char, int> freq_table;
@@ -101,8 +99,7 @@ void freq_table_storing(char file_in_name[])
 }
 
 // comparator for the nodes, it returns true if the first one is greater, and false other wise, this allows for it to be sorted from least to greatest
-bool Compare(Node *node1, Node *node2)
-{
+bool Compare(Node *node1, Node *node2){
     if (node1->get_count() >= node2->get_count())
     {
         return true;
@@ -114,8 +111,7 @@ bool Compare(Node *node1, Node *node2)
 }
 
 // creates huffman tree
-Node *huffman_tree_maker(std::unordered_map<char, int> freq_table)
-{
+Node *huffman_tree_maker(std::unordered_map<char, int> freq_table){
     // creates a priority_queue to store and sort the whole huffman tree
     std::priority_queue<Node *, std::vector<Node *>, decltype(&Compare)> pq(Compare);
 
@@ -148,8 +144,7 @@ Node *huffman_tree_maker(std::unordered_map<char, int> freq_table)
 }
 
 // Helper function for traversing the huffman tree and generating codes
-void generate_codes_helper(std::unordered_map<char, std::string> *map, Node *root, std::string str)
-{
+void generate_codes_helper(std::unordered_map<char, std::string> *map, Node *root, std::string str){
     if (root->get_left() == nullptr && root->get_right() == nullptr)
     {
         map->insert(std::make_pair(root->get_value(), str));
@@ -161,8 +156,7 @@ void generate_codes_helper(std::unordered_map<char, std::string> *map, Node *roo
 }
 
 // Return a hashtable with characters and their corresponding variable length huffman codes
-std::unordered_map<char, std::string> *generate_codes(Node *root)
-{
+std::unordered_map<char, std::string> *generate_codes(Node *root){
     std::cout << "Generating variable length codes for all characters" << std::endl;
     std::unordered_map<char, std::string> *temp = new std::unordered_map<char, std::string>();
     generate_codes_helper(temp, root, "");
@@ -170,8 +164,7 @@ std::unordered_map<char, std::string> *generate_codes(Node *root)
 }
 
 // Prints the frequency table
-void print_freq_table(std::unordered_map<char, int> freq_table)
-{
+void print_freq_table(std::unordered_map<char, int> freq_table){
     // Print out the frequency hashtable in hex
     for (auto i : freq_table)
     {
@@ -182,8 +175,7 @@ void print_freq_table(std::unordered_map<char, int> freq_table)
 }
 
 // Prints the character codes table
-void print_codes_table(std::unordered_map<char, std::string> codes_table)
-{
+void print_codes_table(std::unordered_map<char, std::string> codes_table){
     // Print out the frequency hashtable in hex
     for (auto i : codes_table)
     {
@@ -307,7 +299,9 @@ void compress_data_to_file(std::unordered_map<char, std::string> codes_table, ch
 
         buffer = 8 - buffer_stat;
 
-        file_out << buffer;
+        uint8_t length_of_codes = letter_code.length();
+
+        file_out << length_of_codes;
 
         buffer = 0;
     }
@@ -333,7 +327,7 @@ void compress_data_to_file(std::unordered_map<char, std::string> codes_table, ch
 
 // g++ main.cpp Tree.cpp Node.cpp Huffman.cpp -o compression -lstdc++
 // cd OneDrive/Desktop/Projects/compression/
-// make && ./compression
+// clear && make && ./compression braulio.txt && hexdump -C compressed\ -\ braulio.txt && xxd -b compressed\ -\ braulio.txt
 // valgrind -o --leak-check=yes ./compression
 
 //! Things to Improve

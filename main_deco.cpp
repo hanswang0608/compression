@@ -16,8 +16,7 @@ void decompress_data_to_file(std::unordered_map<char, std::string> codes_table, 
 
 void freq_table_storing(char file_in_name[]);
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv){
     // credit to the code below goes to https://people.sc.fsu.edu/~jburkardt/cpp_src/hexdump/hexdump.html
     char file_in_name[80];
     int i;
@@ -44,8 +43,7 @@ int main(int argc, char **argv)
     return 0;
 }
 
-void freq_table_storing(char file_in_name[])
-{
+void freq_table_storing(char file_in_name[]){
     std::cout << "Storing Frequencies in Hashtable for " << file_in_name << std::endl;
     // Hashtable that stores the frequency of each character read from the input
     std::unordered_map<char, int> freq_table;

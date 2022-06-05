@@ -7,7 +7,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # There is NO WARRANTY, to the extent permitted by law.
  
 
-# Make data base, printed on Thu Jun  2 02:07:58 2022
+# Make data base, printed on Sun Jun  5 17:06:13 2022
 
 # Variables
 
@@ -36,7 +36,7 @@ VSCODE_NLS_CONFIG = {"locale":"en","availableLanguages":{}}
 # environment
 _ = /mnt/c/Users/braul/AppData/Local/Programs/Microsoft VS Code/bin/code
 # environment
-STARSHIP_SESSION_KEY = 1647777741082413
+STARSHIP_SESSION_KEY = 1616718454236292
 # 'override' directive
 GNUMAKEFLAGS := 
 # environment
@@ -56,7 +56,7 @@ MAKEFILE_LIST :=  Makefile
 # environment
 VSCODE_LOG_STACK = false
 # environment
-VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-f2cab5b8-185e-413f-8de4-486741f8e0bb.sock
+VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-d385da5d-669c-461a-a92b-13aed994268a.sock
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -70,7 +70,7 @@ PWD = /mnt/c/Users/braul/OneDrive/Desktop/Projects/compression
 # default
 .LOADED := 
 # environment
-WT_SESSION = ad18ff35-efb8-40c4-87f2-6086b60328f7
+WT_SESSION = 936f7328-a004-4274-95a2-5d4acdba8ee9
 # environment
 MANPATH = /home/linuxbrew/.linuxbrew/share/man::
 # environment
@@ -82,7 +82,7 @@ HOMEBREW_CELLAR = /home/linuxbrew/.linuxbrew/Cellar
 # environment
 LOGNAME = bcarrion
 # environment
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
 # environment
 ZSH = /home/bcarrion/.oh-my-zsh
 # environment
@@ -194,6 +194,13 @@ all: compression decompression
 # Load=0/32=0%, Rehash=0, Collisions=0/3=0%
 
 # Not a target:
+main_comp.cpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-05 17:05:12.7339497
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
 .SUFFIXES:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
@@ -202,51 +209,43 @@ all: compression decompression
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-02 02:07:36.6504963
+#  Last modified 2022-06-05 17:06:11.1278508
 #  File has been updated.
 #  Successfully updated.
 
 decompression: main_deco.cpp Node.cpp Tree.cpp
 #  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 7):
+	g++ main_deco.cpp Node.cpp Tree.cpp -o decompression -lstdc++
+
+compression: main_comp.cpp Node.cpp Tree.cpp
+#  Implicit rule search has not been done.
 #  Implicit/static pattern stem: ''
-#  File does not exist.
+#  Last modified 2022-06-05 16:43:41.7713283
 #  File has been updated.
 #  Needs to be updated (-q is set).
 # automatic
-# @ := decompression
+# @ := compression
 # automatic
 # % := 
 # automatic
 # * := 
 # automatic
-# + := main_deco.cpp Node.cpp Tree.cpp
+# + := main_comp.cpp Node.cpp Tree.cpp
 # automatic
 # | := 
 # automatic
-# < := main_deco.cpp
+# < := main_comp.cpp
 # automatic
-# ^ := main_deco.cpp Node.cpp Tree.cpp
+# ^ := main_comp.cpp Node.cpp Tree.cpp
 # automatic
-# ? := main_deco.cpp Node.cpp Tree.cpp
+# ? := main_comp.cpp
 # variable set hash-table stats:
 # Load=8/32=25%, Rehash=0, Collisions=1/11=9%
-#  recipe to execute (from 'Makefile', line 7):
-	g++ main_deco.cpp Node.cpp Tree.cpp -o decompression -lstdc++
-
-# Not a target:
-main.cpp:
-#  Implicit rule search has been done.
-#  Last modified 2022-06-02 00:50:10.0517425
-#  File has been updated.
-#  Successfully updated.
-
-compression: main.cpp Node.cpp Tree.cpp
-#  Implicit rule search has not been done.
-#  Last modified 2022-06-02 02:07:13.835582
-#  File has been updated.
-#  Successfully updated.
 #  recipe to execute (from 'Makefile', line 4):
-	g++ main.cpp Node.cpp Tree.cpp -o compression -lstdc++
+	g++ main_comp.cpp Node.cpp Tree.cpp -o compression -lstdc++
 
 # Not a target:
 Node.cpp:
@@ -277,10 +276,9 @@ Tree.cpp:
 
 # Not a target:
 main_deco.cpp:
-#  Implicit rule search has been done.
-#  Last modified 2022-06-02 02:03:50.2607534
-#  File has been updated.
-#  Successfully updated.
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 # files hash-table stats:
 # Load=11/1024=1%, Rehash=0, Collisions=0/33=0%
@@ -290,12 +288,12 @@ main_deco.cpp:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 37 / storage = 472 B / avg = 12 B
-# current buf: size = 8162 B / used = 472 B / count = 37 / avg = 12 B
+# strcache buffers: 1 (0) / strings = 37 / storage = 477 B / avg = 12 B
+# current buf: size = 8162 B / used = 477 B / count = 37 / avg = 12 B
 
 # strcache performance: lookups = 56 / hit rate = 33%
 # hash-table stats:
 # Load=37/8192=0%, Rehash=0, Collisions=1/56=2%
-# Finished Make data base on Thu Jun  2 02:07:58 2022
+# Finished Make data base on Sun Jun  5 17:06:13 2022
 
  
