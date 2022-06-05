@@ -1,5 +1,5 @@
 make --dry-run --keep-going --print-directory
 make: Entering directory '/mnt/c/Users/braul/OneDrive/Desktop/Projects/compression'
-g++ main_deco.cpp Node.cpp Tree.cpp -o decompression -lstdc++
+g++ main_comp.cpp Node.cpp Tree.cpp -o compression -lstdc++
 make: Leaving directory '/mnt/c/Users/braul/OneDrive/Desktop/Projects/compression'
  

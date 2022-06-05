@@ -17,10 +17,11 @@ Node *huffman_tree_maker(std::unordered_map<char, int> freq_table);
 Node *node_comparator(Node *node1, Node *node2);
 bool Compare(Node *node1, Node *node2);
 std::unordered_map<char, std::string> *generate_codes(Node *root);
-void compress_data_to_file(std::unordered_map<char, std::string> codes_table, char file_in_name[]);
+void compress_data_to_file(std::unordered_map<char, std::string> codes_table, char file_in_name[], Node *root);
+void safe_tree_to_file(Node *root, std::ofstream file_out);
+void safe_letter_to_file(Node *root, std::ofstream file_out);
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv){
     // credit to the code below goes to https://people.sc.fsu.edu/~jburkardt/cpp_src/hexdump/hexdump.html
     char file_in_name[80];
     int i;
@@ -47,8 +48,7 @@ int main(int argc, char **argv)
     return 0;
 }
 
-void freq_table_storing(char file_in_name[])
-{
+void freq_table_storing(char file_in_name[]){
     std::cout << "Storing Frequencies in Hashtable for " << file_in_name << std::endl;
     // Hashtable that stores the frequency of each character read from the input
     std::unordered_map<char, int> freq_table;
@@ -89,7 +89,7 @@ void freq_table_storing(char file_in_name[])
     std::cout << "-----------------------" << std::endl;
     print_codes_table(*codes_table);
 
-    compress_data_to_file(*codes_table, file_in_name);
+    compress_data_to_file(*codes_table, file_in_name, root);
 
     // Close the file.
     file_in.close();
@@ -101,8 +101,7 @@ void freq_table_storing(char file_in_name[])
 }
 
 // comparator for the nodes, it returns true if the first one is greater, and false other wise, this allows for it to be sorted from least to greatest
-bool Compare(Node *node1, Node *node2)
-{
+bool Compare(Node *node1, Node *node2){
     if (node1->get_count() >= node2->get_count())
     {
         return true;
@@ -114,8 +113,7 @@ bool Compare(Node *node1, Node *node2)
 }
 
 // creates huffman tree
-Node *huffman_tree_maker(std::unordered_map<char, int> freq_table)
-{
+Node *huffman_tree_maker(std::unordered_map<char, int> freq_table){
     // creates a priority_queue to store and sort the whole huffman tree
     std::priority_queue<Node *, std::vector<Node *>, decltype(&Compare)> pq(Compare);
 
@@ -148,8 +146,7 @@ Node *huffman_tree_maker(std::unordered_map<char, int> freq_table)
 }
 
 // Helper function for traversing the huffman tree and generating codes
-void generate_codes_helper(std::unordered_map<char, std::string> *map, Node *root, std::string str)
-{
+void generate_codes_helper(std::unordered_map<char, std::string> *map, Node *root, std::string str){
     if (root->get_left() == nullptr && root->get_right() == nullptr)
     {
         map->insert(std::make_pair(root->get_value(), str));
@@ -161,8 +158,7 @@ void generate_codes_helper(std::unordered_map<char, std::string> *map, Node *roo
 }
 
 // Return a hashtable with characters and their corresponding variable length huffman codes
-std::unordered_map<char, std::string> *generate_codes(Node *root)
-{
+std::unordered_map<char, std::string> *generate_codes(Node *root){
     std::cout << "Generating variable length codes for all characters" << std::endl;
     std::unordered_map<char, std::string> *temp = new std::unordered_map<char, std::string>();
     generate_codes_helper(temp, root, "");
@@ -170,8 +166,7 @@ std::unordered_map<char, std::string> *generate_codes(Node *root)
 }
 
 // Prints the frequency table
-void print_freq_table(std::unordered_map<char, int> freq_table)
-{
+void print_freq_table(std::unordered_map<char, int> freq_table){
     // Print out the frequency hashtable in hex
     for (auto i : freq_table)
     {
@@ -182,8 +177,7 @@ void print_freq_table(std::unordered_map<char, int> freq_table)
 }
 
 // Prints the character codes table
-void print_codes_table(std::unordered_map<char, std::string> codes_table)
-{
+void print_codes_table(std::unordered_map<char, std::string> codes_table){
     // Print out the frequency hashtable in hex
     for (auto i : codes_table)
     {
@@ -193,8 +187,16 @@ void print_codes_table(std::unordered_map<char, std::string> codes_table)
     }
 }
 
-void compress_data_to_file(std::unordered_map<char, std::string> codes_table, char file_in_name[])
-{
+void safe_tree_to_file(Node *root, std::ofstream file_out){
+
+}
+
+void safe_letter_to_file(Node *root, std::ofstream file_out){
+
+}
+
+
+void compress_data_to_file(std::unordered_map<char, std::string> codes_table, char file_in_name[],Node *root){
 
     // Create file to write compression into
     std::string file_out_name = "compressed - " + std::string(file_in_name);
@@ -214,8 +216,7 @@ void compress_data_to_file(std::unordered_map<char, std::string> codes_table, ch
     uint64_t byte_counter = 0;
 
     // loop to write to file and replace the characters
-    while (true)
-    {
+    while (true){
         // get the character from input file
         char c = file_in.get();
 
@@ -223,7 +224,6 @@ void compress_data_to_file(std::unordered_map<char, std::string> codes_table, ch
         {
             // push final byte to be MSB if there are any trailing 0's
             buffer = buffer << 8 - buffer_stat;
-
             // Byte counter
             byte_counter++;
 
@@ -276,41 +276,7 @@ void compress_data_to_file(std::unordered_map<char, std::string> codes_table, ch
 
     uint8_t buffer_stat_copy = buffer_stat;
 
-    // loop through adding
-    for (auto i : codes_table)
-    {
-        buffer_stat = 0;
-        // write the character from the table to file
-        file_out << i.first;
-
-        // get the code into a string
-        std::string letter_code = i.second;
-
-        // loop through the code adding each bit the same way as we did for the character swapping
-        for (int i = 0; i < letter_code.length(); i++)
-        {
-            char current_bit = letter_code[i];
-
-            buffer = buffer << 1;
-
-            int bit_set = current_bit - 48;
-
-            buffer = buffer | bit_set;
-
-            // increase the buffer status size
-            buffer_stat++;
-        }
-
-        buffer = buffer << 8 - buffer_stat;
-
-        file_out << (char)buffer;
-
-        buffer = 8 - buffer_stat;
-
-        file_out << buffer;
-
-        buffer = 0;
-    }
+    
 
     file_out << buffer_stat_copy;
 
