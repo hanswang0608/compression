@@ -2,4 +2,4 @@
 
 Compression project
 
-<p>Authors: Hans Wang and Braulio Andres Carrion Corveira</p>
+<p>Authors: Hans Wang, Braulio Andres Carrion Corveira, and Zaid Omer</p>
