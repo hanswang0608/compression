@@ -2,4 +2,4 @@
 
 Compression project
 
-<p>Authors: Hans Wang, Suraj Patel, Braulio Andres Carrion Corveira, Zaid Omer</p>
+<p>Authors: Hans Wang and Braulio Andres Carrion Corveira</p>
